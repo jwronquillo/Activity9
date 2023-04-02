@@ -1,0 +1,20 @@
+---
+
+- name: Pre-req
+  tags: centos, snapd, epel-release
+  dnf:
+    name:
+      - epel-release
+      - snapd
+    state: latest
+  when: ansible_distribution == "CentOS"
+
+- name: Enable Snapd
+  tags: snapd,centos
+  command: systemctl enable --now snapd.socket
+  when: ansible_distribution == "CentOS"
+
+- name: Install Prometheus (CentOS)
+  tags: prometheus, centos
+  command: snap install prometheus --classic
+  when: ansible_distribution == "CentOS"
